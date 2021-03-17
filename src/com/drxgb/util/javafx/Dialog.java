@@ -1,4 +1,4 @@
-package drxgb.util;
+package com.drxgb.util.javafx;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
