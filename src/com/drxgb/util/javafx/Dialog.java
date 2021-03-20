@@ -1,7 +1,10 @@
 package com.drxgb.util.javafx;
 
+import java.util.Optional;
+
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 
 /**
@@ -17,137 +20,96 @@ public abstract class Dialog {
 	 * 				*** MÉTODOS PÚBLICOS ***
 	 * ===========================================================
 	 */
-
+	
 	/**
-	 * Mostra uma simples caixa de diálogo de informação.
-	 * @param stage A janela onde será mostrada a caixa de diálogo.
-	 * Caso a janela seja fornecida pelo argumento, a mesma ficará travada
-	 * até que a caixa de diálogo seja fechada. Se o valor do argumento for
-	 * <code>null</code>, a caixa de diálogo não travará nenhuma janela.
-	 * @param title O título da caixa de diálogo.
-	 * @param msg O conteúdo da caixa de diálogo.
+	 * Mostra um alerta de acordo com as configurações dadas por argumentos.
+	 * @param stage A janela que será pai do alerta
+	 * @param type Tipo de janela a ser mostrada
+	 * @param title Título da janela
+	 * @param msg Mensagem no contexto da janela
+	 * @param header Cabeçalho da janela
+	 * @param buttons Um array de botões a serem inseridos no alerta
+	 * @return O botão selecionado ao fechar o alerta
 	 */
-	public static void showInfoDialog(Stage stage, String title, String msg) {
-		Alert alert = new Alert(AlertType.INFORMATION);
-		mountAlert(alert, stage, title, msg);
-		alert.show();
+	public static Optional<ButtonType> show(
+			Stage stage,
+			AlertType type,
+			String title,
+			String msg,
+			String header,
+			ButtonType... buttons
+	) {
+		try {
+				Alert alert = new Alert(type);
+				alert.initOwner(stage);
+				alert.setTitle(title);
+				alert.setContentText(msg);
+				alert.setHeaderText(header);
+				if (buttons.length > 0) {
+					alert.getButtonTypes().clear();
+					for (ButtonType btn : buttons) {
+						alert.getButtonTypes().add(btn);
+					}
+				}
+				return alert.showAndWait();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	/**
-	 * Mostra uma simples caixa de diálogo de informação solta, ou seja,
-	 * não terá nenhuma janela para ser travada. Em outras palavras, o atributo
-	 * <code>owner</code> da classe <code>Alert</code> terá seu valor <code>null</code>.
-	 * @param title O título da caixa de diálogo.
-	 * @param msg O conteúdo da caixa de diálogo.
+	 * Mostra um alerta de acordo com as configurações dadas por argumentos
+	 * somente com o botão {@code OK}.
+	 * @param stage A janela que será pai do alerta
+	 * @param type Tipo de janela a ser mostrada
+	 * @param title Título da janela
+	 * @param msg Mensagem no contexto da janela
+	 * @param header Cabeçalho da janela
+	 * @return O botão selecionado ao fechar o alerta
 	 */
-	public static void showInfoDialog(String title, String msg) {
-		showInfoDialog(null, title, msg);
+	public static Optional<ButtonType> show(
+			Stage stage,
+			AlertType type,
+			String title,
+			String msg,
+			String header
+	) {
+		return show(stage, type, title, msg, header, new ButtonType[0]);
 	}
 	
 	/**
-	 * Mostra uma simples caixa de diálogo de informação sem travar
-	 * nenhuma janela e com um título padrão.
-	 * @param msg O conteúdo da caixa de diálogo.
+	 * Mostra um alerta de acordo com as configurações dadas por argumentos
+	 * somente com o botão {@code OK} e sem cabeçalho.
+	 * @param stage A janela que será pai do alerta
+	 * @param type Tipo de janela a ser mostrada
+	 * @param title Título da janela
+	 * @param msg Mensagem no contexto da janela
+	 * @return O botão selecionado ao fechar o alerta
 	 */
-	public static void showInfoDialog(String msg) {
-		showInfoDialog(null, "Info", msg);
+	public static Optional<ButtonType> show(
+			Stage stage,
+			AlertType type,
+			String title,
+			String msg
+	) {
+		return show(stage, type, title, msg, null);
 	}
 	
 	/**
-	 * Mostra uma simples caixa de diálogo de aviso.
-	 * @param stage A janela onde será mostrada a caixa de diálogo.
-	 * Caso a janela seja fornecida pelo argumento, a mesma ficará travada
-	 * até que a caixa de diálogo seja fechada. Se o valor do argumento for
-	 * <code>null</code>, a caixa de diálogo não travará nenhuma janela.
-	 * @param stage A janela onde será mostrada a caixa de diálogo.
-	 * Caso a janela seja fornecida pelo argumento, a mesma ficará travada
-	 * até que a caixa de diálogo seja fechada. Se o valor do argumento for
-	 * <code>null</code>, a caixa de diálogo não travará nenhuma janela.
-	 * @param title O título da caixa de diálogo.
-	 * @param msg O conteúdo da caixa de diálogo.
+	 * Mostra um alerta de acordo com as configurações dadas por argumentos
+	 * somente com o botão {@code OK}, sem cabeçalho e sem uma janela pai.
+	 * @param type Tipo de janela a ser mostrada
+	 * @param title Título da janela
+	 * @param msg Mensagem no contexto da janela
+	 * @return O botão selecionado ao fechar o alerta
 	 */
-	public static void showWarningDialog(Stage stage, String title, String msg) {
-		Alert alert = new Alert(AlertType.WARNING);
-		mountAlert(alert, stage, title, msg);
-		alert.show();
-	}
-	
-	/**
-	 * Mostra uma simples caixa de diálogo de aviso solta, ou seja,
-	 * não terá nenhuma janela para ser travada. Em outras palavras, o atributo
-	 * <code>owner</code> da classe <code>Alert</code> terá seu valor <code>null</code>.
-	 * @param title O título da caixa de diálogo.
-	 * @param msg O conteúdo da caixa de diálogo.
-	 */
-	public static void showWarningDialog(String title, String msg) {
-		showWarningDialog(null, title, msg);
-	}
-	
-	/**
-	 * Mostra uma simples caixa de diálogo de aviso sem travar
-	 * nenhuma janela e com um título padrão.
-	 * @param msg O conteúdo da caixa de diálogo.
-	 */
-	public static void showWarningDialog(String msg) {
-		showWarningDialog(null, "Warning", msg);
-	}
-	
-	/**
-	 * Mostra uma simples caixa de diálogo de erro.
-	 * @param stage A janela onde será mostrada a caixa de diálogo.
-	 * Caso a janela seja fornecida pelo argumento, a mesma ficará travada
-	 * até que a caixa de diálogo seja fechada. Se o valor do argumento for
-	 * <code>null</code>, a caixa de diálogo não travará nenhuma janela.
-	 * @param title O título da caixa de diálogo.
-	 * @param msg O conteúdo da caixa de diálogo.
-	 */
-	public static void showErrorDialog(Stage stage, String title, String msg) {
-		Alert alert = new Alert(AlertType.ERROR);
-		mountAlert(alert, stage, title, msg);
-		alert.show();
-	}
-	
-	/**
-	 * Mostra uma simples caixa de diálogo de erro solta, ou seja,
-	 * não terá nenhuma janela para ser travada. Em outras palavras, o atributo
-	 * <code>owner</code> da classe <code>Alert</code> terá seu valor <code>null</code>.
-	 * @param title O título da caixa de diálogo.
-	 * @param msg O conteúdo da caixa de diálogo.
-	 */
-	public static void showErrorDialog(String title, String msg) {
-		showErrorDialog(null, title, msg);
-	}
-	
-	/**
-	 * Mostra uma simples caixa de diálogo de erro sem travar
-	 * nenhuma janela e com um título padrão.
-	 * @param msg O conteúdo da caixa de diálogo.
-	 */
-	public static void showErrorDialog(String msg) {
-		showErrorDialog(null, "Error", msg);
-	}
-	
-	
-	
-	/*
-	 * ===========================================================
-	 * 				*** MÉTODOS PRIVADOS ***
-	 * ===========================================================
-	 */
-	
-	/**
-	 * Monta a caixa de diálogo de acordo com os argumentos dados.
-	 * @param alert A instância de <code>Alert</code>.
-	 * @param stage A instância de <code>Stage</code> que será a janela travada
-	 * pela caixa de diálogo.
-	 * @param title O título da caixa de diálogo.
-	 * @param msg O conteúdo da caixa de diálogo.
-	 */
-	private static void mountAlert(Alert alert, Stage stage, String title, String msg) {
-		alert.setTitle(title);
-		alert.setHeaderText(null);
-		alert.setContentText(msg);
-		alert.initOwner(stage);
+	public static Optional<ButtonType> show(
+			AlertType type,
+			String title,
+			String msg
+	) {
+		return show(null, type, title, msg, null);
 	}
 	
 }
