@@ -11,7 +11,7 @@ import javafx.stage.Stage;
  * Classe abstrata utilitária responsável por mostrar caixas de diálogo
  * em um projeto JavaFX de forma mais prática.
  * @author Dr.XGB
- * @version 1.0
+ * @version 1.1
  */
 public abstract class Dialog {
 	
@@ -110,6 +110,37 @@ public abstract class Dialog {
 			String msg
 	) {
 		return show(null, type, title, msg, null);
+	}
+	
+	/**
+	 * Mostra um alerta de acordo com as configurações dadas por argumentos
+	 * somente com o botão {@code OK}, sem cabeçalho e com tipo de alerta padrão.
+	 * @param stage A janela que será pai do alerta
+	 * @param title Título da janela
+	 * @param msg Mensagem no contexto da janela
+	 * @return O botão selecionado ao fechar o alerta
+	 */
+	public static Optional<ButtonType> show(
+			Stage stage,
+			String title,
+			String msg
+	) {
+		return show(stage, AlertType.NONE, title, msg, null);
+	}
+	
+	/**
+	 * Mostra um alerta de acordo com as configurações dadas por argumentos
+	 * somente com o botão {@code OK}, sem cabeçalho, sem uma janela pai 
+	 * e com tipo de alerta padrão.
+	 * @param title Título da janela
+	 * @param msg Mensagem no contexto da janela
+	 * @return O botão selecionado ao fechar o alerta
+	 */
+	public static Optional<ButtonType> show(
+			String title,
+			String msg
+	) {
+		return show((Stage) null, title, msg);
 	}
 	
 }
