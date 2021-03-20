@@ -40,18 +40,20 @@ public abstract class Dialog {
 			ButtonType... buttons
 	) {
 		try {
-				Alert alert = new Alert(type);
-				alert.initOwner(stage);
-				alert.setTitle(title);
-				alert.setContentText(msg);
-				alert.setHeaderText(header);
-				if (buttons.length > 0) {
-					alert.getButtonTypes().clear();
-					for (ButtonType btn : buttons) {
-						alert.getButtonTypes().add(btn);
-					}
+			if (type == null)
+				type = AlertType.INFORMATION;
+			Alert alert = new Alert(type);
+			alert.initOwner(stage);
+			alert.setTitle(title);
+			alert.setContentText(msg);
+			alert.setHeaderText(header);
+			if (buttons.length > 0) {
+				alert.getButtonTypes().clear();
+				for (ButtonType btn : buttons) {
+					alert.getButtonTypes().add(btn);
 				}
-				return alert.showAndWait();
+			}
+			return alert.showAndWait();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -113,8 +115,9 @@ public abstract class Dialog {
 	}
 	
 	/**
-	 * Mostra um alerta de acordo com as configurações dadas por argumentos
-	 * somente com o botão {@code OK}, sem cabeçalho e com tipo de alerta padrão.
+	 * <p>Mostra um alerta de acordo com as configurações dadas por argumentos
+	 * somente com o botão {@code OK}, sem cabeçalho e com tipo de alerta padrão.</p>
+	 * <p>No caso do alerta padrão, será escolhido o {@code AlertType.INFORMATION}.</p>
 	 * @param stage A janela que será pai do alerta
 	 * @param title Título da janela
 	 * @param msg Mensagem no contexto da janela
@@ -125,13 +128,14 @@ public abstract class Dialog {
 			String title,
 			String msg
 	) {
-		return show(stage, AlertType.NONE, title, msg, null);
+		return show(stage, null, title, msg, null);
 	}
 	
 	/**
 	 * Mostra um alerta de acordo com as configurações dadas por argumentos
 	 * somente com o botão {@code OK}, sem cabeçalho, sem uma janela pai 
 	 * e com tipo de alerta padrão.
+	 * <p>No caso do alerta padrão, será escolhido o {@code AlertType.INFORMATION}.</p>
 	 * @param title Título da janela
 	 * @param msg Mensagem no contexto da janela
 	 * @return O botão selecionado ao fechar o alerta
@@ -140,7 +144,7 @@ public abstract class Dialog {
 			String title,
 			String msg
 	) {
-		return show((Stage) null, title, msg);
+		return show((Stage) null, null, title, msg, null);
 	}
 	
 }
