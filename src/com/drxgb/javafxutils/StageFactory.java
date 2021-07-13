@@ -12,8 +12,27 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.Window;
 
+/**
+ * Responsável por gerar uma janela do JavaFX de uma maneira mais simplificada,
+ * poupando algumas linhas de código em seu projeto.
+ * @author Dr.XGB
+ * @version 1.5
+ *
+ */
 public abstract class StageFactory {
 	
+	/**
+	 * Abre uma janela do JavaFX.
+	 * @param <T> Controlador da view a ser carregada.
+	 * @param owner Janela pai desta nova janela.
+	 * @param fxmlPath Caminho do FXML para carregar a cena da janela.
+	 * @param title Título da janela.
+	 * @param modal Verificar se janela é uma modal. @code{true} se a janela será uma modal ou @code{false} se for uma janela comum.
+	 * @param resizable A janela será redimensionada se o argumento for @{code}, ou @code{false} para janelas de tamanho fixo.
+	 * @param fnInitialize Função que será chamada no momento em que a view for carregada.
+	 * @return A própria janela do tipo @code{Stage}.
+	 * @throws IOException Caso o caminho do FXML for inválido, uma exceção será lançada.
+	 */
 	public static <T> Stage openWindow(
 			Window owner, 
 			URL fxmlPath, 
