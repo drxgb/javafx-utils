@@ -70,4 +70,66 @@ public abstract class StageFactory {
 		return stage;
 	}
 	
+	
+	/**
+	 * Abre uma janela do JavaFX.
+	 * @param <T> Controlador da view a ser carregada.
+	 * @param owner Janela pai desta nova janela.
+	 * @param fxmlPath Caminho do FXML para carregar a cena da janela.
+	 * @param title Título da janela.
+	 * @param modal Verificar se janela é uma modal. @code{true} se a janela será uma modal ou @code{false} se for uma janela comum.
+	 * @param resizable A janela será redimensionada se o argumento for @{code}, ou @code{false} para janelas de tamanho fixo.
+	 * @return A própria janela do tipo @code{Stage}.
+	 * @throws IOException Caso o caminho do FXML for inválido, uma exceção será lançada.
+	 */
+	public static <T> Stage openWindow(
+			Window owner, 
+			URL fxmlPath, 
+			String title, 
+			boolean modal, 
+			boolean resizable
+		) throws IOException
+	{
+		return openWindow(owner, fxmlPath, title, modal, resizable, null);
+	}
+	
+	
+	/**
+	 * Abre uma janela do JavaFX.
+	 * @param <T> Controlador da view a ser carregada.
+	 * @param owner Janela pai desta nova janela.
+	 * @param fxmlPath Caminho do FXML para carregar a cena da janela.
+	 * @param title Título da janela.
+	 * @param modal Verificar se janela é uma modal. @code{true} se a janela será uma modal ou @code{false} se for uma janela comum.
+	 * @return A própria janela do tipo @code{Stage}.
+	 * @throws IOException Caso o caminho do FXML for inválido, uma exceção será lançada.
+	 */
+	public static <T> Stage openWindow(
+			Window owner, 
+			URL fxmlPath, 
+			String title, 
+			boolean modal
+		) throws IOException
+	{
+		return openWindow(owner, fxmlPath, title, modal, false, null);
+	}
+	
+	
+	/**
+	 * Abre uma janela do JavaFX.
+	 * @param <T> Controlador da view a ser carregada.
+	 * @param owner Janela pai desta nova janela.
+	 * @param fxmlPath Caminho do FXML para carregar a cena da janela.
+	 * @param title Título da janela.
+	 * @return A própria janela do tipo @code{Stage}.
+	 * @throws IOException Caso o caminho do FXML for inválido, uma exceção será lançada.
+	 */
+	public static <T> Stage openWindow(
+			Window owner, 
+			URL fxmlPath, 
+			String title
+		) throws IOException
+	{
+		return openWindow(owner, fxmlPath, title, false, false, null);
+	}
 }
