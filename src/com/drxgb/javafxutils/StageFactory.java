@@ -1,6 +1,7 @@
 package com.drxgb.javafxutils;
 
 import java.io.IOException;
+import java.net.URL;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -12,17 +13,14 @@ import javafx.stage.Window;
 
 public abstract class StageFactory {
 	
-	public static Stage openWindow(Window owner, String fxmlPath, String title, boolean modal, boolean resizable) throws IOException
+	public static Stage openWindow(Window owner, URL fxmlPath, String title, boolean modal, boolean resizable) throws IOException
 	{
 		Scene scene = null;
 		if (fxmlPath != null)
 		{
-			if (!fxmlPath.isBlank() && !fxmlPath.isEmpty())
-			{
-				FXMLLoader loader = new FXMLLoader(StageFactory.class.getResource(fxmlPath));
-				Parent root = (Parent) loader.load();
-				scene = new Scene(root);
-			}
+			FXMLLoader loader = new FXMLLoader(fxmlPath);
+			Parent root = (Parent) loader.load();
+			scene = new Scene(root);
 		}
 		Stage stage = null;
 		if (modal)
@@ -40,7 +38,7 @@ public abstract class StageFactory {
 		return stage;
 	}
 	
-	public static Stage openWindow(Window owner, String fxmlPath, String title, boolean resizable) throws IOException
+	public static Stage openWindow(Window owner, URL fxmlPath, String title, boolean resizable) throws IOException
 	{
 		return openWindow(owner, fxmlPath, title, false, resizable);
 	}
@@ -50,7 +48,7 @@ public abstract class StageFactory {
 		return openWindow(owner, null, title, false, resizable);
 	}
 	
-	public static Stage openWindow(String fxmlPath, String title, boolean resizable) throws IOException
+	public static Stage openWindow(URL fxmlPath, String title, boolean resizable) throws IOException
 	{
 		return openWindow(null, fxmlPath, title, false, resizable);
 	}
