@@ -25,4 +25,6 @@ hs_err_pid*
 # Folders #
 bin/
 test/
+dist/
+doc/
 .settings/

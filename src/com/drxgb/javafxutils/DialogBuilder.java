@@ -1,4 +1,4 @@
-package com.drxgb.util.javafx;
+package com.drxgb.javafxutils;
 
 import java.util.Optional;
 
@@ -11,9 +11,9 @@ import javafx.stage.Stage;
  * Classe abstrata utilitária responsável por mostrar caixas de diálogo
  * em um projeto JavaFX de forma mais prática.
  * @author Dr.XGB
- * @version 1.1
+ * @version 1.2
  */
-public abstract class Dialog {
+public abstract class DialogBuilder {
 	
 	/*
 	 * ===========================================================
