@@ -57,6 +57,9 @@ public abstract class PropertiesManager {
 	 * não foi possível criar o arquivo.
 	 */
 	private static boolean create(File path) {
+		if (path == null)
+			return false;
+		
 		try (BufferedOutputStream fs = new BufferedOutputStream(new FileOutputStream(path))) {
 			return true;
 		} catch (Exception e) {
