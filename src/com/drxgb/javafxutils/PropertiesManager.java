@@ -20,7 +20,7 @@ public abstract class PropertiesManager {
 	 * @param path A localização completa do arquivo.
 	 * @return uma instância de {@code Properties} com todas as propriedades carregadas do arquivo.
 	 */
-	public static Properties load(File path) {
+	public static Properties load(File path) throws NullPointerException {			
 		try (BufferedInputStream fs = new BufferedInputStream(new FileInputStream(path))) {
 			Properties props = new Properties();
 			props.load(fs);
