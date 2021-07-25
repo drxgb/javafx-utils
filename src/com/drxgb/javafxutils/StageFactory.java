@@ -16,10 +16,15 @@ import javafx.stage.Window;
  * Responsável por gerar uma janela do JavaFX de uma maneira mais simplificada,
  * poupando algumas linhas de código em seu projeto.
  * @author Dr.XGB
- * @version 1.5
- *
+ * @version 1.6
  */
-public abstract class StageFactory {
+public abstract class StageFactory 
+{	
+	/*
+	 * ===========================================================
+	 * 			*** MÉTODOS PÚBLICOS ***
+	 * ===========================================================
+	 */
 	
 	/**
 	 * Abre uma janela do JavaFX.
@@ -42,27 +47,14 @@ public abstract class StageFactory {
 			Consumer<T> fnInitialize
 		) throws IOException
 	{
-		Scene scene = null;
-		if (fxmlPath != null)
+		Scene scene = createScene(fxmlPath, fnInitialize);		
+		Stage stage = createStage(modal);		
+		if (scene != null)
 		{
-			FXMLLoader loader = new FXMLLoader(fxmlPath);
-			Parent root = (Parent) loader.load();
-			scene = new Scene(root);
-			if (fnInitialize != null)
-			{
-				T controller = loader.getController();
-				fnInitialize.accept(controller);
-			}
+			if (owner != null && owner.getScene() != null)
+				scene.getStylesheets().addAll(owner.getScene().getStylesheets());
+			stage.setScene(scene);
 		}
-		Stage stage = null;
-		if (modal)
-		{
-			stage = new Stage(StageStyle.UTILITY);
-			stage.initModality(Modality.APPLICATION_MODAL);
-		}
-		else
-			stage = new Stage();
-		stage.setScene(scene);
 		stage.setTitle(title);
 		stage.initOwner(owner);
 		stage.setResizable(resizable);
@@ -131,5 +123,58 @@ public abstract class StageFactory {
 		) throws IOException
 	{
 		return openWindow(owner, fxmlPath, title, false, false, null);
+	}
+	
+	
+	/*
+	 * ===========================================================
+	 * 			*** MÉTODOS PRIVADOS ***
+	 * ===========================================================
+	 */
+	
+	/**
+	 * Cria uma nova cena.
+	 * @param <T> Tipo de argumento da função no {@code Consumer}
+	 * @param fxmlPath Caminho do FXML para carregar a cena da janela.
+	 * @param fn Função que será chamada no momento em que a view for carregada.
+	 * @return Uma nova cena carregada do FXML. Se o caminho for inválido, 
+	 * o sistema retornará {@code null}
+	 * @throws IOException Se o caminho do FXML for inválido.
+	 */
+	private static <T> Scene createScene(URL fxmlPath, Consumer<T> fn) throws IOException
+	{
+		Scene scene = null;
+		if (fxmlPath != null)
+		{
+			FXMLLoader loader = new FXMLLoader(fxmlPath);
+			Parent root = (Parent) loader.load();
+			scene = new Scene(root);
+			if (fn != null)
+			{
+				T controller = loader.getController();
+				fn.accept(controller);
+			}
+		}
+		return scene;
+	}
+	
+	
+	/**
+	 * Cria uma nova janela.
+	 * @param modal Tipo da janela. {@code true} para modal e {@code false}
+	 * uma janela simples.
+	 * @return Uma nova janela.
+	 */
+	private static Stage createStage(boolean modal)
+	{
+		Stage stage = null;
+		if (modal)
+		{
+			stage = new Stage(StageStyle.UTILITY);
+			stage.initModality(Modality.APPLICATION_MODAL);
+		}
+		else
+			stage = new Stage();
+		return stage;
 	}
 }
