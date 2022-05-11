@@ -58,7 +58,6 @@ public abstract class StageFactory
 		stage.setTitle(title);
 		stage.initOwner(owner);
 		stage.setResizable(resizable);
-		stage.showAndWait();
 		return stage;
 	}
 	
