@@ -16,7 +16,7 @@ import javafx.stage.Window;
  * Responsável por gerar uma janela do JavaFX de uma maneira mais simplificada,
  * poupando algumas linhas de código em seu projeto.
  * @author Dr.XGB
- * @version 1.6
+ * @version 1.7.1
  */
 public abstract class StageFactory 
 {	
@@ -149,6 +149,7 @@ public abstract class StageFactory
 			FXMLLoader loader = new FXMLLoader(fxmlPath);
 			Parent root = (Parent) loader.load();
 			scene = new Scene(root);
+			scene.setUserData(loader);
 			if (fn != null)
 			{
 				T controller = loader.getController();
