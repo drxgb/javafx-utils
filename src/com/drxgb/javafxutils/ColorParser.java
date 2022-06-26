@@ -6,11 +6,16 @@ public interface ColorParser
 {
 	static String toCssHexColor(Color color)
 	{
+		if (color == null)
+			return null;
 		return color.toString().replace("0x", "#");
 	}
 	
 	static String toCssRgbColor(Color color)
 	{
+		if (color == null)
+			return null;
+		
 		StringBuilder sb = new StringBuilder();
 		final int r = (int) (color.getRed() * 255);
 		final int g = (int) (color.getGreen() * 255);
@@ -29,6 +34,9 @@ public interface ColorParser
 	
 	static String toCssRgbaColor(Color color)
 	{
+		if (color == null)
+			return null;
+		
 		StringBuilder sb = new StringBuilder();
 		final int r = (int) (color.getRed() * 255);
 		final int g = (int) (color.getGreen() * 255);
